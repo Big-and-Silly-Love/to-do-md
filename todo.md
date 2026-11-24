@@ -54,5 +54,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 ## Groceries
 - Weekly shop | note: Check the pantry first | steps: Milk; Eggs; Bread; Bananas; Coffee
 
-## Other
-- Birthday present for Mum | due 4/12 | medium
+## Pick ups
+- Baby Bunting| due 4/12 | medium
+- Chemistwarehouse
+- Shoes and Sox
