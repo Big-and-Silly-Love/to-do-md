@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en-AU"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>To Do</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="To Do">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#18212B" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+</head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one phone-width column; sticky list header with overall progress, then task cards that expand into notes and steps. */
+:root{
+  --bg:#F3F5F8; --surface:#FFFFFF; --fg:#16202B; --muted:#5D6B7A; --line:#DCE2E9;
+  --accent:#2952D9; --accent-soft:#E6ECFD; --done:#17885C; --done-soft:#E1F3EA; --over:#B26A00; --over-soft:#FBEFD9; --warn:#C2410C;
+  --display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --body:"Inter", -apple-system, system-ui, sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F151C; --surface:#18212B; --fg:#E7EDF3; --muted:#93A1AF; --line:#2A3542;
+  --accent:#7D9BFF; --accent-soft:#1F2A4A; --done:#4CC793; --done-soft:#143327; --over:#F0A93B; --over-soft:#3A2A10; --warn:#FB923C; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F151C; --surface:#18212B; --fg:#E7EDF3; --muted:#93A1AF; --line:#2A3542;
+  --accent:#7D9BFF; --accent-soft:#1F2A4A; --done:#4CC793; --done-soft:#143327; --over:#F0A93B; --over-soft:#3A2A10; --warn:#FB923C; color-scheme:dark}
+[hidden]{display:none!important}
+*{box-sizing:border-box}
+html,body{background:var(--bg);color:var(--fg)}
+body{font-family:var(--body);font-size:15px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header .wrap{padding-block:12px 10px;display:grid;gap:10px}
+.row{display:flex;align-items:center;gap:10px;min-width:0}
+.brand{font-family:var(--display);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.listpick{flex:1;min-width:0;appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 34px 9px 12px;font-family:var(--display);font-weight:600;font-size:17px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 18px) 55%,calc(100% - 13px) 55%;background-size:5px 5px;background-repeat:no-repeat;text-overflow:ellipsis}
+.iconbtn{flex:none;border:1px solid var(--line);background:var(--bg);border-radius:10px;height:42px;padding:0 12px;font-weight:600;font-size:14px}
+.iconbtn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.summary{display:flex;align-items:center;gap:12px}
+.ring{flex:none;width:52px;height:52px}
+.ring circle{fill:none;stroke-width:6}
+.ring .trk{stroke:var(--line)} .ring .val{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .4s}
+.ring.full .val{stroke:var(--done)}
+.ring text{font:600 12px var(--body);fill:var(--fg)}
+.sumtxt{min-width:0}
+.sumtxt b{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums}
+.sumtxt small{display:block;color:var(--muted);font-size:13px}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.status{font-size:12px;color:var(--muted)}
+main .wrap{padding-block:14px 40px;display:grid;gap:10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.card.done{border-color:color-mix(in srgb,var(--done) 45%,var(--line))}
+.card.over{border-color:color-mix(in srgb,var(--over) 50%,var(--line))}
+.head{width:100%;display:grid;grid-template-columns:1fr auto;gap:4px 12px;text-align:left;background:none;border:0;padding:14px 14px 12px}
+.eyebrow{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.title{font-family:var(--display);font-weight:600;font-size:18px;line-height:1.2;min-width:0}
+.count{grid-row:1/3;grid-column:2;align-self:center;text-align:right;font-variant-numeric:tabular-nums}
+.count b{font-family:var(--display);font-size:22px}
+.count span{color:var(--muted);font-size:14px}
+.count em{display:block;font-style:normal;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.done .count em{color:var(--done)} .over .count em{color:var(--over)} .todo .count em{color:var(--muted)}
+.segs{grid-column:1/3;display:flex;gap:3px;margin-top:8px}
+.segs i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.segs i.on{background:var(--accent)} .done .segs i.on{background:var(--done)} .over .segs i.on{background:var(--over)}
+.badges{grid-column:1/3;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.badge{font-size:11px;font-weight:600;border-radius:6px;padding:2px 7px;background:var(--bg);color:var(--muted)}
+.badge.req{background:var(--accent-soft);color:var(--accent)}
+.badge.earlier{background:var(--over-soft);color:var(--over)}
+.body{border-top:1px solid var(--line);padding:12px 14px 14px;display:grid;gap:12px}
+.meta{display:grid;gap:6px;font-size:13.5px;color:var(--muted)}
+.meta p{margin:0} .meta b{color:var(--fg);font-weight:600}
+.overnote{font-size:13px;background:var(--over-soft);color:var(--over);border-radius:8px;padding:8px 10px}
+.donenote{font-size:13px;background:var(--done-soft);color:var(--done);border-radius:8px;padding:8px 10px}
+.ckl{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.ck{display:flex;align-items:flex-start;gap:10px;padding:9px 6px;border-radius:10px}
+.ck:hover{background:var(--bg)}
+.ck input{appearance:none;flex:none;width:24px;height:24px;margin:0;border:2px solid var(--line);border-radius:7px;display:grid;place-content:center;background:var(--surface)}
+.ck input::after{content:"";width:12px;height:7px;border:solid #fff;border-width:0 0 2.5px 2.5px;transform:rotate(-45deg) translate(1px,-1px);opacity:0}
+.ck input:checked{background:var(--done);border-color:var(--done)} .ck input:checked::after{opacity:1}
+.ck label{flex:1;min-width:0;padding-top:1px;overflow-wrap:anywhere}
+.ck.on label{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.ck .x{flex:none;border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:2px 6px}
+.sect{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:4px 0 0}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg)}
+.addrow button{border:0;border-radius:10px;padding:0 14px;background:var(--accent);color:#fff;font-weight:600}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:28px 20px;text-align:center;color:var(--muted);display:grid;gap:10px;justify-items:center}
+.empty h2{margin:0;font-family:var(--display);color:var(--fg);font-size:20px}
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgb(10 15 20 / .45);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:720px;max-height:92%;overflow:auto;border-radius:18px 18px 0 0;
+  padding:18px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:grid;gap:12px}
+.sheet h2{margin:0;font-family:var(--display);font-size:21px}
+.sheet p{margin:0;color:var(--muted);font-size:13.5px}
+.sheet label.f{display:grid;gap:5px;font-size:13px;font-weight:600}
+.sheet input[type=text],.sheet textarea{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);width:100%}
+.sheet textarea{min-height:160px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;line-height:1.4}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 14px;font-weight:600}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.danger{background:var(--warn);border-color:var(--warn);color:#fff}
+.btn[disabled]{opacity:.5;cursor:default}
+.preview{border:1px solid var(--line);border-radius:10px;max-height:220px;overflow:auto;font-size:13px}
+.preview table{border-collapse:collapse;width:100%}
+.preview td,.preview th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.preview th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);position:sticky;top:0;background:var(--surface)}
+.preview td.n{text-align:right;font-variant-numeric:tabular-nums}
+.tag{font-size:11px;color:var(--done);font-weight:600}
+.tag.no{color:var(--muted)}
+.mgmt{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:9px 16px;border-radius:999px;font-size:14px;z-index:30;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>
+/* To Do additions: a quick-tick circle beside each task, due/priority badges, step counter. */
+.head{display:flex;align-items:flex-start;gap:0;padding:0;grid-template-columns:none}
+.qk{flex:none;width:30px;height:30px;margin:14px 0 0 14px;border-radius:50%;border:2px solid var(--line);background:var(--surface);display:grid;place-content:center;padding:0;color:var(--muted);font-size:11px;font-weight:700;font-variant-numeric:tabular-nums}
+.qk::after{content:"";width:12px;height:7px;border:solid #fff;border-width:0 0 2.5px 2.5px;transform:rotate(-45deg) translate(1px,-1px);display:none}
+.done .qk,.over .qk{background:var(--done);border-color:var(--done)} .done .qk::after,.over .qk::after{display:block} .done .qk span,.over .qk span{display:none}
+.qk.part{border-color:var(--accent);color:var(--accent)}
+.hb{flex:1;min-width:0;display:grid;grid-template-columns:1fr auto;gap:4px 12px;text-align:left;background:none;border:0;padding:14px 14px 12px 12px}
+.hb .eyebrow,.hb .title{grid-column:1}
+.done .hb .title.one{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.badge.hi{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}
+.badge.late{background:var(--warn);color:#fff}
+.badge.soon{background:var(--over-soft);color:var(--over)}
+.badge.ok{background:var(--done-soft);color:var(--done)}
+.meta a{color:var(--accent);overflow-wrap:anywhere}
+.counter{display:flex;align-items:center;gap:12px}
+.counter button{width:44px;height:40px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-size:20px;font-weight:600}
+.counter b{font-family:var(--display);font-size:20px;font-variant-numeric:tabular-nums;min-width:70px;text-align:center}
+.sectionhdr{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:8px 2px -2px}
+.iconbtn.spin{animation:spin 1s linear infinite} @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="row"><span class="brand">To Do</span><span class="status" id="status"></span></div>
+    <div class="row">
+      <select class="listpick" id="listpick" aria-label="List"></select>
+      <button class="iconbtn" id="managebtn" aria-label="More options" title="More options">•••</button>
+      <button class="iconbtn primary" id="refreshbtn" aria-label="Check for updates" title="Check for updates">↻</button>
+    </div>
+    <div class="summary" id="summary" hidden>
+      <svg class="ring" id="ring" viewBox="0 0 52 52" aria-hidden="true">
+        <circle class="trk" cx="26" cy="26" r="22"/><circle class="val" id="ringval" cx="26" cy="26" r="22" transform="rotate(-90 26 26)" stroke-dasharray="138.2" stroke-dashoffset="138.2"/>
+        <text x="26" y="30" text-anchor="middle" id="ringpct">0%</text>
+      </svg>
+      <div class="sumtxt"><b id="sumcount">0 / 0</b><small id="sumsub">tasks done</small></div>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter">
+      <button class="chip" data-f="all" aria-pressed="true">All</button>
+      <button class="chip" data-f="todo" aria-pressed="false">Still to do</button>
+      <button class="chip" data-f="soon" aria-pressed="false">Due soon</button>
+      <button class="chip" data-f="hi" aria-pressed="false">High priority</button>
+      <button class="chip" data-f="done" aria-pressed="false">Done</button>
+    </div>
+  </div>
+</header>
+<main><div class="wrap" id="cards">
+  <div class="empty"><h2>Loading your list…</h2><p>Reading todo.md</p></div>
+</div></main>
+<div id="sheetroot"></div>
+
+<script>
+const SRC = () => (S.data && S.data.source) || 'todo.md';
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s || '').toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, ' ').trim();
+const slug = s => norm(s).replace(/ /g, '-').slice(0, 60) || 'x';
+
+/* ---------- minimal .xlsx reader (zip + XML), no libraries ---------- */
+async function readZip(buf) {
+  const dv = new DataView(buf), u8 = new Uint8Array(buf);
+  let e = -1;
+  for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65558); i--) if (dv.getUint32(i, true) === 0x06054b50) { e = i; break; }
+  if (e < 0) throw new Error('not-xlsx');
+  const n = dv.getUint16(e + 10, true); let p = dv.getUint32(e + 16, true); const files = {};
+  for (let k = 0; k < n && dv.getUint32(p, true) === 0x02014b50; k++) {
+    const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true), nlen = dv.getUint16(p + 28, true),
+      xlen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
+    files[new TextDecoder().decode(u8.subarray(p + 46, p + 46 + nlen)).replace(/^\//, '')] = {method, csize, off};
+    p += 46 + nlen + xlen + clen;
+  }
+  const find = name => files[name] || files[Object.keys(files).find(k => k.toLowerCase() === name.toLowerCase())];
+  return async name => {
+    const f = find(name); if (!f) return null;
+    const s = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true);
+    const data = u8.subarray(s, s + f.csize); let out;
+    if (f.method === 0) out = data;
+    else if (f.method === 8) {
+      if (typeof DecompressionStream === 'undefined') throw new Error('old-ios');
+      out = new Uint8Array(await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+    } else throw new Error('zip-method');
+    return new TextDecoder().decode(out);
+  };
+}
+const xml = s => new DOMParser().parseFromString(s, 'application/xml');
+const tags = (node, name) => [...node.getElementsByTagNameNS('*', name)];
+const colIdx = ref => { let n = 0; for (const ch of ref.replace(/\d+/g, '')) n = n * 26 + ch.charCodeAt(0) - 64; return n - 1; };
+async function readSheetRows(buf) {
+  const get = await readZip(buf);
+  const wb = await get('xl/workbook.xml'); if (!wb) throw new Error('not-xlsx');
+  const sheets = tags(xml(wb), 'sheet').map(s => ({name: s.getAttribute('name'), rid: s.getAttributeNS('http://schemas.openxmlformats.org/officeDocument/2006/relationships', 'id') || s.getAttribute('r:id')}));
+  const rels = {}; tags(xml(await get('xl/_rels/workbook.xml.rels') || '<x/>'), 'Relationship').forEach(r => rels[r.getAttribute('Id')] = r.getAttribute('Target'));
+  const pick = sheets.find(s => /^tasks?$/i.test(s.name.trim())) || sheets.find(s => /task|to ?do/i.test(s.name)) || sheets[0];
+  if (!pick) throw new Error('no-sheet');
+  let target = rels[pick.rid] || 'worksheets/sheet1.xml';
+  target = target.startsWith('/') ? target.slice(1) : 'xl/' + target.replace(/^\.\//, '');
+  const shared = []; const ss = await get('xl/sharedStrings.xml');
+  if (ss) tags(xml(ss), 'si').forEach(si => shared.push(tags(si, 't').filter(t => !t.closest || !t.parentNode || t.parentNode.localName !== 'rPh').map(t => t.textContent).join('')));
+  const doc = xml(await get(target) || '<x/>'); const rows = [];
+  tags(doc, 'row').forEach(r => {
+    const rn = +r.getAttribute('r') - 1; const row = [];
+    tags(r, 'c').forEach((c, i) => {
+      const ref = c.getAttribute('r'); const ci = ref ? colIdx(ref) : i; const t = c.getAttribute('t');
+      const v = tags(c, 'v')[0]; const vt = v ? v.textContent : '';
+      let val;
+      if (t === 's') val = shared[+vt] ?? '';
+      else if (t === 'inlineStr') val = tags(c, 't').map(x => x.textContent).join('');
+      else if (t === 'b') val = vt === '1' ? 'TRUE' : 'FALSE';
+      else if (t === 'str' || t === 'e') val = vt;
+      else val = vt === '' ? '' : Number(vt);
+      row[ci] = val;
+    });
+    rows[rn >= 0 ? rn : rows.length] = row;
+  });
+  return {sheet: pick.name, rows: Array.from(rows, r => r || [])};
+}
+function toDate(v) {
+  if (v === '' || v == null) return '';
+  if (typeof v === 'number' && v > 59 && v < 100000) { const d = new Date(Date.UTC(1899, 11, 30) + Math.round(v) * 864e5); return d.toISOString().slice(0, 10); }
+  const s = String(v).trim(); let m;
+  if ((m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+  if ((m = s.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})$/))) { const y = m[3].length === 2 ? '20' + m[3] : m[3]; return `${y}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`; }
+  const d = new Date(s); return isNaN(d) ? '' : d.toISOString().slice(0, 10);
+}
+function rowsToLists(rows) {
+  const hi = rows.findIndex(r => r.some(c => norm(c) === 'task' || norm(c) === 'tasks'));
+  if (hi < 0) throw new Error('no-header');
+  const hdr = rows[hi].map(norm);
+  const col = (...keys) => hdr.findIndex(h => keys.some(k => typeof k === 'string' ? h === k : k.test(h)));
+  const C = { list: col('list', /^list/), section: col('section', 'group', 'category', /^section/), task: col('task', 'tasks'),
+    qty: col('qty', 'quantity', 'how many', 'times', 'count', 'target', /^qty/), due: col('due', 'due date', /^due/, 'date'),
+    pri: col('priority', /^prior/), steps: col('steps', 'sub tasks', 'subtasks', 'checklist', /^steps/), notes: col('notes', 'note', 'details', /^notes/), link: col('link', 'url', 'website', /^link/) };
+  const lists = new Map(); let curList = '', curSec = '';
+  for (const r of rows.slice(hi + 1)) {
+    const g = k => C[k] >= 0 ? r[C[k]] ?? '' : '';
+    const txt = k => String(g(k)).trim();
+    if (txt('list')) { if (txt('list') !== curList) curSec = ''; curList = txt('list'); }
+    if (txt('section')) curSec = txt('section');
+    const task = txt('task'); if (!task) continue;
+    const listName = curList || 'My list'; const key = slug(listName);
+    if (!lists.has(key)) lists.set(key, {id: key, name: listName, lines: [], ids: new Set()});
+    const L = lists.get(key);
+    let id = slug(curSec) + '~' + slug(task); let k = 2; while (L.ids.has(id)) id = slug(curSec) + '~' + slug(task) + '-' + k++; L.ids.add(id);
+    const q = parseInt(g('qty'), 10);
+    const pr = txt('pri').toLowerCase();
+    L.lines.push({ id, sec: curSec, task, qty: q > 0 ? Math.min(q, 999) : null, due: toDate(g('due')),
+      pri: /^h/.test(pr) ? 'High' : /^m/.test(pr) ? 'Medium' : /^l/.test(pr) ? 'Low' : '',
+      steps: String(g('steps')).split(/\s*(?:;|\n)\s*/).map(s => s.trim()).filter(Boolean),
+      notes: txt('notes'), link: txt('link') });
+  }
+  return [...lists.values()].map(({ids, ...l}) => l);
+}
+
+
+/* ---------- todo.md reader ----------
+   # List   ## Section   - Task | due 27/11 | high | x3 | note: ... | link: ...
+   Indented "- " lines under a task are its steps; other indented lines are notes. */
+const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+function mdDate(s) {
+  s = String(s).trim().toLowerCase().replace(/^(mon|tue|wed|thu|fri|sat|sun)[a-z]*,?\s+/, ''); let m, d, mo, y;
+  if ((m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/))) [y, mo, d] = [+m[1], +m[2], +m[3]];
+  else if ((m = s.match(/^(\d{1,2})[\/.-](\d{1,2})(?:[\/.-](\d{2,4}))?$/))) [d, mo, y] = [+m[1], +m[2], m[3] ? +(m[3].length === 2 ? '20' + m[3] : m[3]) : 0];
+  else if ((m = s.match(/^(\d{1,2})(?:st|nd|rd|th)?\s+([a-z]{3})[a-z]*\.?,?(?:\s+(\d{4}))?$/)) && MONTHS.includes(m[2])) [d, mo, y] = [+m[1], MONTHS.indexOf(m[2]) + 1, m[3] ? +m[3] : 0];
+  else return '';
+  if (!(d >= 1 && d <= 31 && mo >= 1 && mo <= 12)) return '';
+  const iso = (yy) => `${yy}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  if (!y) { y = new Date().getFullYear(); if (daysTo(iso(y)) < -180) y++; }
+  return iso(y);
+}
+function parseMd(text) {
+  const lists = new Map(); let curList = '', curSec = '', cur = null, inComment = false;
+  const listFor = name => { const key = slug(name); if (!lists.has(key)) lists.set(key, {id: key, name, lines: [], ids: new Set()}); return lists.get(key); };
+  const addTask = body => {
+    const parts = body.split('|').map(x => x.trim()); const task = parts.shift().replace(/\*\*|__/g, '').trim(); if (!task) return null;
+    const t = {sec: curSec, task, qty: null, due: '', pri: '', steps: [], notes: '', link: ''};
+    const note = x => t.notes = t.notes ? t.notes + ' · ' + x : x;
+    for (const x of parts) { let m;
+      if (!x) continue;
+      if ((m = x.match(/^due\s*:?\s*(.+)$/i)) || /^\d{1,2}[\/.-]\d{1,2}([\/.-]\d{2,4})?$/.test(x)) { const d = mdDate(m ? m[1] : x); d ? t.due = d : note(x); }
+      else if ((m = x.match(/^(?:priority\s*:?\s*|!)?(high|medium|med|low)(?:\s+priority)?$/i))) t.pri = {h: 'High', m: 'Medium', l: 'Low'}[m[1][0].toLowerCase()];
+      else if ((m = x.match(/^(?:x\s*(\d+)|(\d+)\s*x|(?:qty|quantity)\s*:?\s*(\d+)|(\d+)\s*times)$/i))) { const q = +(m[1] || m[2] || m[3] || m[4]); if (q > 0) t.qty = Math.min(q, 999); }
+      else if ((m = x.match(/^steps?\s*:\s*(.+)$/i))) t.steps.push(...m[1].split(';').map(y => y.trim()).filter(Boolean));
+      else if ((m = x.match(/^notes?\s*:\s*(.+)$/i))) note(m[1]);
+      else if ((m = x.match(/^(?:link|url|web)\s*:\s*(.+)$/i)) || /^(https?:\/\/|www\.)\S+$/i.test(x)) t.link = m ? m[1].trim() : x;
+      else note(x);
+    }
+    const L = listFor(curList || 'My list');
+    let id = slug(curSec) + '~' + slug(task); let k = 2; while (L.ids.has(id)) id = slug(curSec) + '~' + slug(task) + '-' + k++; L.ids.add(id);
+    t.id = id; L.lines.push(t); return t;
+  };
+  for (const raw of text.replace(/\r/g, '').split('\n')) {
+    let line = raw.trim();
+    if (inComment) { if (line.includes('-->')) inComment = false; continue; }
+    if (line.startsWith('<!--')) { if (!line.includes('-->')) inComment = true; continue; }
+    if (!line) continue;
+    const ind = raw.match(/^\s*/)[0].replace(/\t/g, '    ').length; let m;
+    if ((m = line.match(/^#\s+(.+)$/))) { curList = m[1].replace(/#+$/, '').trim(); curSec = ''; cur = null; continue; }
+    if ((m = line.match(/^#{2,6}\s+(.+)$/))) { curSec = m[1].replace(/#+$/, '').trim(); cur = null; continue; }
+    m = line.match(/^(?:[-*+]|\d+[.)])\s+(?:\[[ xX]?\]\s*)?(.*)$/);
+    if (m && ind >= 2 && cur) { const st = m[1].trim(); if (st) cur.steps.push(st); continue; }
+    if (m) { cur = addTask(m[1]); continue; }
+    if (cur && (ind >= 2 || line.startsWith('>'))) { const n = line.replace(/^>\s?/, ''); cur.notes = cur.notes ? cur.notes + ' ' + n : n; }
+  }
+  return [...lists.values()].map(({ids, ...l}) => l);
+}
+
+/* ---------- storage (this phone only) ---------- */
+const LS = 'todo.v1';
+const Local = {
+  read() { try { const d = JSON.parse(localStorage.getItem(LS)); if (d && d.progress) return d; } catch (e) {} return {data: null, progress: {}}; },
+  write(d) { try { localStorage.setItem(LS, JSON.stringify(d)); return true; } catch (e) { return false; } },
+};
+
+/* ---------- state ---------- */
+const S = { data: null, progress: {}, listId: null, filter: 'all', open: new Set(), checking: false, error: '' };
+try { const p = JSON.parse(localStorage.getItem('todo.ui') || '{}'); S.listId = p.listId || null; S.filter = p.filter || 'all'; (p.open || []).forEach(x => S.open.add(x)); } catch (e) {}
+const saveUi = () => { try { localStorage.setItem('todo.ui', JSON.stringify({listId: S.listId, filter: S.filter, open: [...S.open].slice(-60)})); } catch (e) {} };
+{ const d = Local.read(); S.data = d.data; S.progress = d.progress || {}; }
+const lists = () => (S.data && S.data.lists) || [];
+const curList = () => lists().find(l => l.id === S.listId);
+const prog = line => (S.progress[S.listId] || {})[line.id] || {};
+function items(line) { const p = prog(line); return [...line.steps.map(t => ({text: t, done: (p.ticked || []).includes(t)})), ...(p.custom || [])]; }
+function lineReq(line) { const it = items(line); return line.qty || (it.length || 1); }
+function lineCount(line) { const it = items(line); return it.length ? it.filter(x => x.done).length : (prog(line).n || 0); }
+function lineState(line) { const n = lineCount(line), r = lineReq(line); return n > r ? 'over' : n >= r ? 'done' : 'todo'; }
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
+const daysTo = iso => Math.round((Date.parse(iso) - Date.parse(today())) / 864e5);
+const isSoon = line => line.due && lineState(line) === 'todo' && daysTo(line.due) <= 7;
+const fmtDate = iso => new Date(iso + 'T00:00:00').toLocaleDateString('en-AU', {weekday: 'short', day: 'numeric', month: 'short'});
+
+function setStatus(t, warn) { const el = $('#status'); el.textContent = t; el.style.color = warn ? 'var(--warn)' : ''; }
+let toastT; function toast(t) { let el = $('.toast'); if (!el) { el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); } el.textContent = t; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, 2600); }
+function ago(iso) { if (!iso) return ''; const m = Math.round((Date.now() - Date.parse(iso)) / 6e4);
+  return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : m < 1440 ? Math.round(m / 60) + ' h ago' : new Date(iso).toLocaleDateString('en-AU', {day: 'numeric', month: 'short'}); }
+function statusLine() {
+  if (S.checking) return setStatus('Checking for updates…');
+  if (S.error && S.data) return setStatus(S.error + ' · showing list from ' + ago(S.data.fetchedAt), true);
+  if (S.error) return setStatus(S.error, true);
+  if (S.data) setStatus('Updated ' + ago(S.data.fetchedAt));
+}
+
+/* ---------- load todo.md (or todo.xlsx) ---------- */
+const ERR = { 'not-xlsx': "todo.xlsx isn't a valid Excel file", 'no-header': 'No header row with a "Task" column in todo.xlsx', 'no-sheet': 'todo.xlsx has no sheets',
+  'jekyll': 'GitHub is turning todo.md into a web page - add an empty file called .nojekyll to the repository', 'old-ios': 'Update iOS to 16.4 or later to read Excel files', 'zip-method': "todo.xlsx is saved in a format the app can't read - re-save it from Excel" };
+async function refresh(manual) {
+  if (S.checking) return; S.checking = true; S.error = ''; $('#refreshbtn').classList.add('spin'); statusLine();
+  try {
+    const get = async name => { const r = await fetch(name + '?t=' + Date.now(), {cache: 'no-store'}); if (r.status === 404) return null; if (!r.ok) throw new Error('http'); return r; };
+    let source = 'todo.md', newLists, r = await get('todo.md');
+    if (r) newLists = parseMd(await r.text());
+    else {
+      if (await get('todo.html')) throw new Error('jekyll');
+      r = await get('todo.xlsx'); if (!r) throw new Error('missing');
+      source = 'todo.xlsx'; newLists = rowsToLists((await readSheetRows(await r.arrayBuffer())).rows);
+    }
+    const before = new Map(lists().map(l => [l.id, new Set(l.lines.map(x => x.id))]));
+    let added = 0, removed = 0;
+    if (S.data) newLists.forEach(l => { const b = before.get(l.id) || new Set(); l.lines.forEach(x => { if (!b.has(x.id)) added++; else b.delete(x.id); }); before.set(l.id, b); });
+    if (S.data) { const seen = new Set(newLists.map(l => l.id)); before.forEach((b, id) => { removed += seen.has(id) ? b.size : before.get(id).size; }); }
+    S.data = {lists: newLists, fetchedAt: new Date().toISOString(), source};
+    const d = Local.read(); d.data = S.data; Local.write(d);
+    if (added || removed) toast(`List updated: ${added} new, ${removed} removed`);
+    else if (manual) toast('Up to date');
+  } catch (e) {
+    const m = e && e.message;
+    S.error = m === 'missing' ? 'No todo.md found next to the app' : ERR[m] || (navigator.onLine === false ? 'Offline' : "Couldn't check for updates");
+    if (manual) toast(S.error);
+  }
+  S.checking = false; $('#refreshbtn').classList.remove('spin'); render();
+}
+
+/* ---------- render ---------- */
+function renderPicker() {
+  const sel = $('#listpick'); const ls = lists();
+  sel.innerHTML = ls.length ? ls.map(l => `<option value="${esc(l.id)}">${esc(l.name)}</option>`).join('') : '<option value="">No lists yet</option>';
+  sel.disabled = !ls.length;
+  if (!curList() && ls.length) S.listId = ls[0].id;
+  if (S.listId) sel.value = S.listId;
+}
+function renderSummary() {
+  const l = curList(); const box = $('#summary');
+  if (!l) { box.hidden = true; return; }
+  box.hidden = false;
+  const doneN = l.lines.filter(x => lineState(x) !== 'todo').length, tot = l.lines.length;
+  const late = l.lines.filter(x => x.due && lineState(x) === 'todo' && daysTo(x.due) < 0).length;
+  const soon = l.lines.filter(x => isSoon(x) && daysTo(x.due) >= 0).length;
+  const pct = tot ? Math.round(doneN / tot * 100) : 0;
+  $('#ringval').setAttribute('stroke-dashoffset', (138.2 * (1 - pct / 100)).toFixed(1));
+  $('#ring').classList.toggle('full', pct === 100);
+  $('#ringpct').textContent = pct + '%';
+  $('#sumcount').textContent = `${doneN} / ${tot}`;
+  $('#sumsub').textContent = 'tasks done' + (late ? ` · ${late} overdue` : '') + (soon ? ` · ${soon} due this week` : '');
+  document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.f === S.filter)));
+}
+function dueBadge(line) {
+  if (!line.due) return '';
+  const st = lineState(line), d = daysTo(line.due);
+  if (st !== 'todo') return `<span class="badge">Due ${esc(fmtDate(line.due))}</span>`;
+  const txt = d < 0 ? `Overdue · ${fmtDate(line.due)}` : d === 0 ? 'Due today' : d === 1 ? 'Due tomorrow' : `Due ${fmtDate(line.due)}`;
+  return `<span class="badge ${d < 0 ? 'late' : d <= 2 ? 'soon' : ''}">${esc(txt)}</span>`;
+}
+function cardHtml(line) {
+  const n = lineCount(line), req = lineReq(line), st = lineState(line), it = items(line), open = S.open.has(S.listId + '/' + line.id);
+  const multi = req > 1;
+  const segs = !multi ? '' : req <= 12 ? `<div class="segs" aria-hidden="true">${Array.from({length: req}, (_, i) => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</div>`
+    : `<div class="segs" aria-hidden="true"><i class="on" style="flex:${Math.min(n, req)}"></i><i style="flex:${Math.max(req - n, 0)}"></i></div>`;
+  const label = st === 'done' ? 'Done' : st === 'over' ? `${n - req} extra` : `${req - n} to go`;
+  const badges = [line.pri === 'High' ? '<span class="badge hi">High</span>' : line.pri ? `<span class="badge">${esc(line.pri)}</span>` : '', dueBadge(line),
+    it.length ? `<span class="badge">${it.length} step${it.length > 1 ? 's' : ''}</span>` : '', line.notes || line.link ? '<span class="badge">Notes</span>' : ''].join('');
+  let body = '';
+  if (open) {
+    const p = prog(line);
+    const meta = [line.notes && `<p>${esc(line.notes)}</p>`, line.link && `<p><b>Link:</b> <a href="${esc(/^https?:/i.test(line.link) ? line.link : 'https://' + line.link)}" target="_blank" rel="noopener">${esc(line.link)}</a></p>`,
+      line.due && `<p><b>Due:</b> ${esc(new Date(line.due + 'T00:00:00').toLocaleDateString('en-AU', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'}))}</p>`,
+      line.pri && `<p><b>Priority:</b> ${esc(line.pri)}</p>`].filter(Boolean).join('');
+    const steps = line.steps.map((t, i) => { const id = `ck-${line.id}-${i}`; const on = (p.ticked || []).includes(t);
+      return `<li class="ck ${on ? 'on' : ''}"><input type="checkbox" id="${esc(id)}" data-act="step" data-line="${esc(line.id)}" data-i="${i}" ${on ? 'checked' : ''}><label for="${esc(id)}">${esc(t)}</label></li>`; }).join('');
+    const custom = (p.custom || []).map((c, i) => { const id = `cc-${line.id}-${i}`;
+      return `<li class="ck ${c.done ? 'on' : ''}"><input type="checkbox" id="${esc(id)}" data-act="custom" data-line="${esc(line.id)}" data-i="${i}" ${c.done ? 'checked' : ''}><label for="${esc(id)}">${esc(c.text)}</label><button class="x" data-act="rmcustom" data-line="${esc(line.id)}" data-i="${i}" aria-label="Remove ${esc(c.text)}">×</button></li>`; }).join('');
+    const counter = !it.length && multi ? `<div class="counter"><button data-act="minus" data-line="${esc(line.id)}" aria-label="One less">−</button><b>${n} / ${req}</b><button data-act="plus" data-line="${esc(line.id)}" aria-label="One more">+</button></div>` : '';
+    const note = st === 'over' ? `<div class="overnote">Done ${n} times - more than the ${req} needed.</div>` : st === 'done' && multi ? `<div class="donenote">All ${req} done.</div>` : '';
+    body = `<div class="body">${meta ? `<div class="meta">${meta}</div>` : ''}${note}${counter}
+      ${steps || custom ? `<p class="sect">Steps</p><ul class="ckl">${steps}${custom}</ul>` : ''}
+      <form class="addrow" data-act="add" data-line="${esc(line.id)}"><input id="add-${esc(line.id)}" placeholder="Add a step (saved on this phone)" aria-label="Add a step" autocomplete="off"><button>Add</button></form></div>`;
+  }
+  const qkInner = it.length && st === 'todo' ? `<span>${n}/${req}</span>` : multi && st === 'todo' ? `<span>${n}/${req}</span>` : '';
+  const qkLabel = it.length ? `Show steps for ${line.task}` : st === 'todo' ? `Mark ${line.task} done` : `Mark ${line.task} not done`;
+  return `<section class="card ${st}" data-line="${esc(line.id)}">
+    <div class="head"><button class="qk ${n > 0 && st === 'todo' ? 'part' : ''}" data-act="quick" data-line="${esc(line.id)}" aria-label="${esc(qkLabel)}">${qkInner}</button>
+    <button class="hb" data-act="toggle" data-line="${esc(line.id)}" aria-expanded="${open}">
+      <span class="eyebrow">${esc(line.sec || '')}</span>
+      ${multi ? `<span class="count"><b>${n}</b><span> / ${req}</span><em>${label}</em></span>` : ''}
+      <span class="title ${multi ? '' : 'one'}">${esc(line.task)}</span>${segs}
+      ${badges ? `<span class="badges">${badges}</span>` : ''}
+    </button></div>${body}</section>`;
+}
+function renderCards() {
+  const box = $('#cards'); const l = curList();
+  if (!S.data) {
+    if (S.checking) return;
+    box.innerHTML = `<div class="empty"><h2>No list loaded yet</h2><p>${esc(S.error || 'The app reads todo.md from the same place it is hosted.')}</p><p>Add todo.md to the same GitHub repository as this app, then tap ↻.</p><div class="btns" style="justify-content:center"><button class="btn primary" data-act="refresh">Try again</button><button class="btn" data-act="backup">Restore ticks from backup</button></div></div>`;
+    return;
+  }
+  if (!l) { box.innerHTML = `<div class="empty"><h2>No tasks in ${esc(SRC())}</h2><p>Add tasks (lines starting with - ) under a # List heading, commit the change on GitHub, then tap ↻.</p></div>`; return; }
+  const f = S.filter;
+  const shown = l.lines.filter(x => f === 'all' || (f === 'todo' && lineState(x) === 'todo') || (f === 'done' && lineState(x) !== 'todo') || (f === 'soon' && isSoon(x)) || (f === 'hi' && x.pri === 'High' && lineState(x) === 'todo'));
+  if (!shown.length) { box.innerHTML = `<div class="empty"><p>${f === 'done' ? 'Nothing ticked off yet.' : f === 'all' ? 'No tasks.' : 'Nothing here - nice work.'}</p></div>`; return; }
+  const ordered = f === 'soon' ? [...shown].sort((a, b) => a.due.localeCompare(b.due)) : shown;
+  box.innerHTML = ordered.map(cardHtml).join('');
+}
+function render() { renderPicker(); renderSummary(); renderCards(); statusLine(); }
+
+/* ---------- actions ---------- */
+function writeLine(line, mut) {
+  const all = S.progress[S.listId] ||= {};
+  const p = all[line.id] || {}; const next = {ticked: [...(p.ticked || [])], custom: (p.custom || []).map(c => ({...c})), n: p.n || 0};
+  mut(next); all[line.id] = next;
+  const d = Local.read(); d.progress = S.progress; if (!d.data) d.data = S.data;
+  if (!Local.write(d)) toast('Storage is full - couldn’t save');
+  render();
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]'); if (!t) return;
+  const act = t.dataset.act; const l = curList();
+  const line = l && l.lines.find(x => x.id === t.dataset.line);
+  const toggleOpen = () => { const k = S.listId + '/' + line.id; S.open.has(k) ? S.open.delete(k) : S.open.add(k); saveUi(); renderCards(); };
+  if (act === 'toggle') toggleOpen();
+  else if (act === 'quick') {
+    if (items(line).length) { toggleOpen(); return; }
+    const req = lineReq(line), n = lineCount(line);
+    if (n < req) { writeLine(line, p => p.n = n + 1); if (n + 1 >= req) toast(`Done: ${line.task}`); }
+    else writeLine(line, p => p.n = req > 1 ? n - 1 : 0);
+  }
+  else if (act === 'plus') writeLine(line, p => p.n = Math.min(999, (p.n || 0) + 1));
+  else if (act === 'minus') writeLine(line, p => p.n = Math.max(0, (p.n || 0) - 1));
+  else if (act === 'step') { const txt = line.steps[+t.dataset.i]; writeLine(line, p => { const s = new Set(p.ticked); t.checked ? s.add(txt) : s.delete(txt); p.ticked = [...s]; }); }
+  else if (act === 'custom') writeLine(line, p => { p.custom[+t.dataset.i].done = t.checked; });
+  else if (act === 'rmcustom') writeLine(line, p => { p.custom.splice(+t.dataset.i, 1); });
+  else if (act === 'refresh') refresh(true);
+  else if (act === 'backup') openBackup();
+});
+document.addEventListener('submit', e => {
+  const f = e.target.closest('form[data-act="add"]'); if (!f) return; e.preventDefault();
+  const inp = f.querySelector('input'); const v = inp.value.trim(); if (!v) return;
+  const line = curList().lines.find(x => x.id === f.dataset.line);
+  writeLine(line, p => p.custom.push({text: v.slice(0, 200), done: false}));
+  setTimeout(() => { const i = document.getElementById('add-' + line.id); i && i.focus(); }, 0);
+});
+$('#chips').addEventListener('click', e => { const c = e.target.closest('.chip'); if (!c) return; S.filter = c.dataset.f; saveUi(); renderSummary(); renderCards(); });
+$('#listpick').addEventListener('change', e => { S.listId = e.target.value; saveUi(); render(); scrollTo(0, 0); });
+$('#refreshbtn').addEventListener('click', () => refresh(true));
+$('#managebtn').addEventListener('click', () => openManage());
+
+/* ---------- sheets ---------- */
+function closeSheet() { $('#sheetroot').innerHTML = ''; }
+function sheet(html) { $('#sheetroot').innerHTML = `<div class="scrim" data-scrim><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`;
+  $('[data-scrim]').addEventListener('click', e => { if (e.target.matches('[data-scrim]')) closeSheet(); }); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#sheetroot').innerHTML) closeSheet(); });
+function summaryText(l) {
+  return l.name + '\n' + l.lines.map(x => { const n = lineCount(x), r = lineReq(x), st = lineState(x);
+    return `${st === 'todo' ? '○' : '✓'} ${x.sec ? x.sec + ' - ' : ''}${x.task}${r > 1 ? ` (${n}/${r})` : ''}${x.due && st === 'todo' ? ' · due ' + fmtDate(x.due) : ''}`; }).join('\n');
+}
+function openManage() {
+  const l = curList();
+  sheet(`<h2>Options</h2>
+    <p>Lists and tasks come from <b>${esc(SRC())}</b>. ${SRC() === 'todo.md' ? 'To change them, open todo.md on GitHub, tap the pencil, edit, then Commit changes.' : 'To change them, edit the Excel file and upload it to GitHub again.'} Last checked ${esc(S.data ? ago(S.data.fetchedAt) : 'never')}.</p>
+    <div class="btns"><button class="btn primary" id="mg-refresh">Check for updates now</button>${l ? '<button class="btn" id="mg-copy">Copy progress summary</button>' : ''}</div>
+    ${l ? `<div class="mgmt"><p>Untick everything on "${esc(l.name)}" and remove steps you added on this phone. The tasks stay.</p>
+      <div class="btns" id="mg-reset-box"><button class="btn" id="mg-reset">Clear ticks…</button></div></div>` : ''}
+    <div class="mgmt"><p>Your ticks are saved on this phone only. Back them up now and then, or to move to another phone.</p>
+      <div class="btns"><button class="btn" id="mg-backup">Backup &amp; restore…</button></div></div>
+    <div class="btns"><button class="btn" id="mg-close">Close</button></div>`);
+  $('#mg-close').addEventListener('click', closeSheet);
+  $('#mg-backup').addEventListener('click', openBackup);
+  $('#mg-refresh').addEventListener('click', () => { closeSheet(); refresh(true); });
+  if (!l) return;
+  $('#mg-copy').addEventListener('click', () => { const txt = summaryText(l);
+    navigator.clipboard.writeText(txt).then(() => toast('Summary copied'), () => { const ta = document.createElement('textarea'); ta.value = txt; ta.style.minHeight = '120px'; $('#mg-copy').after(ta); ta.select(); toast('Select and copy the text'); }); });
+  $('#mg-reset').addEventListener('click', () => { $('#mg-reset-box').innerHTML = `<button class="btn danger" id="mg-reset-yes">Yes, clear all ticks</button><button class="btn" id="mg-reset-no">Keep them</button>`;
+    $('#mg-reset-no').addEventListener('click', closeSheet);
+    $('#mg-reset-yes').addEventListener('click', () => { S.progress[l.id] = {}; const d = Local.read(); d.progress = S.progress; Local.write(d); closeSheet(); render(); toast('Ticks cleared'); }); });
+}
+function lastBackupNote() { let ts = null; try { ts = localStorage.getItem('todo.backupAt'); } catch (e) {} return ts ? 'Last backup ' + ago(ts) : 'No backup yet'; }
+function markBackup() { try { localStorage.setItem('todo.backupAt', new Date().toISOString()); } catch (e) {} }
+function backupText() { return JSON.stringify({app: 'to-do', version: 1, savedAt: new Date().toISOString(), progress: S.progress}); }
+function openBackup() {
+  sheet(`<h2>Backup &amp; restore</h2>
+    <p>A backup holds every tick and every step you added. Your tasks themselves are in ${esc(SRC())}. ${esc(lastBackupNote())}.</p>
+    <div class="btns"><button class="btn primary" id="bk-file">Save backup file</button><button class="btn" id="bk-copy">Copy backup text</button></div>
+    <div class="mgmt"><p>Restore replaces all ticks in the app with the backup. Choose a backup file, or paste backup text.</p>
+      <label class="f" for="bk-pick">Backup file<input type="file" id="bk-pick" accept=".json,application/json,text/plain"></label>
+      <label class="f" for="bk-text">Or paste backup text<textarea id="bk-text" style="min-height:90px"></textarea></label>
+      <div class="btns" id="bk-restore-box"><button class="btn" id="bk-restore" disabled>Restore…</button></div></div>
+    <div class="btns"><button class="btn" id="bk-close">Close</button></div>`);
+  $('#bk-close').addEventListener('click', closeSheet);
+  $('#bk-file').addEventListener('click', async () => {
+    const txt = backupText(); const name = 'to-do-backup-' + today() + '.json';
+    try { const file = new File([txt], name, {type: 'application/json'});
+      if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], title: name}); markBackup(); toast('Backup ready'); return; }
+    } catch (e) { if (e && e.name === 'AbortError') return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], {type: 'application/json'})); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); markBackup(); toast('Backup saved');
+  });
+  $('#bk-copy').addEventListener('click', () => { const txt = backupText();
+    navigator.clipboard.writeText(txt).then(() => { markBackup(); toast('Backup copied - paste it into Notes'); },
+      () => { const ta = $('#bk-text'); ta.value = txt; ta.select(); toast('Select the text below and copy it'); }); });
+  let pending = null;
+  const check = txt => { pending = null; try { const o = JSON.parse(txt); if (o && o.app === 'to-do' && o.progress) pending = o; } catch (e) {}
+    $('#bk-restore').disabled = !pending; $('#bk-restore').textContent = pending ? `Restore ticks from ${new Date(pending.savedAt).toLocaleDateString('en-AU')}…` : 'Restore…'; };
+  $('#bk-text').addEventListener('input', e => check(e.target.value));
+  $('#bk-pick').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; f.text().then(txt => { check(txt); if (!pending) toast("That file isn't a To Do backup"); }); });
+  $('#bk-restore').addEventListener('click', () => {
+    $('#bk-restore-box').innerHTML = `<button class="btn danger" id="bk-yes">Replace all ticks with the backup</button><button class="btn" id="bk-no">Cancel</button>`;
+    $('#bk-no').addEventListener('click', closeSheet);
+    $('#bk-yes').addEventListener('click', () => { S.progress = pending.progress; const d = Local.read(); d.progress = S.progress; Local.write(d); closeSheet(); render(); toast('Ticks restored'); });
+  });
+}
+
+/* ---------- boot ---------- */
+if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+render();
+refresh(false);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && (!S.data || Date.now() - Date.parse(S.data.fetchedAt) > 60000)) refresh(false); else if (document.visibilityState === 'visible') render(); });
+setInterval(statusLine, 60000);
+</script>
+
+</body></html>

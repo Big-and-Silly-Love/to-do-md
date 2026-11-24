@@ -1,0 +1,75 @@
+TO DO APP - HOW TO INSTALL AND UPDATE
+=====================================
+
+WHAT'S IN THIS FOLDER
+  index.html, manifest.json, sw.js, icon-180.png, icon-192.png, icon-512.png  -> the app
+  todo.md   -> your to-do list (a plain text file you can edit right on GitHub)
+  Excel version (optional)/todo.xlsx -> only if you'd rather keep the list in Excel
+                                        (the app uses todo.md when both exist)
+
+IMPORTANT - YOUR LIST IS PUBLIC
+  Free GitHub Pages only works with a PUBLIC repository, so anyone who knows (or guesses)
+  the web address can read todo.md. Don't put anything private in it: no passwords,
+  account numbers, addresses, phone numbers, or confidential work details.
+  Your ticks are NOT uploaded - they stay on your phone.
+
+ONE-TIME SET-UP (about 5 minutes, on your computer)
+  1. Sign in at github.com.
+  2. Click + (top right) > New repository. Name it: to-do
+     Choose PUBLIC. Click Create repository.
+  3. Click "uploading an existing file". Drag in these 7 files:
+     index.html, manifest.json, sw.js, icon-180.png, icon-192.png, icon-512.png, todo.md
+     Click Commit changes.
+  4. ADD THE .nojekyll FILE (needed so GitHub serves todo.md as plain text):
+     In the repository click Add file > Create new file.
+     Name it exactly:  .nojekyll      (starts with a dot; leave the content empty)
+     Click Commit changes.
+  5. Go to Settings > Pages. Under "Build and deployment", Source: Deploy from a branch,
+     Branch: main, folder: / (root). Click Save.
+  6. Wait 1-2 minutes. Your app is at:  https://<your-github-username>.github.io/to-do/
+
+INSTALL ON YOUR IPHONE
+  1. Open the address above in Safari.
+  2. Tap Share > Add to Home Screen > Add.
+  3. Always open it from the green To Do icon.
+
+CHANGING YOUR LIST - RIGHT ON GITHUB (computer or iPhone)
+  1. Go to github.com > your to-do repository > tap todo.md.
+  2. Tap the pencil icon (Edit). On iPhone, if you don't see it, tap ... > Edit file.
+  3. Make your changes. Tap Commit changes (and Commit changes again to confirm).
+  4. Wait about a minute, then open the app (or tap the blue refresh button).
+     A message shows how many tasks were added or removed.
+  Tip: in Safari, Share > Add to Home Screen on the todo.md page too, so editing is one tap away.
+
+HOW TO WRITE todo.md  (the same cheat-sheet is at the top of the file)
+  # Home                          <- a list (each list is a page in the app)
+  ## Bills                        <- optional section heading
+  - Pay electricity bill | due 27/11 | high
+  - Water the plants | x3 | note: Three times this week
+  - Renew rego | due 8/12 | link: https://www.vicroads.vic.gov.au
+  - Spring clean bedroom          <- steps on indented lines (2 spaces, then "- ")
+    - Change sheets
+    - Vacuum
+  - Weekly shop | steps: Milk; Eggs; Bread
+
+  Details after the task, separated by |  (any order, all optional):
+    due 27/11  or  due 27/11/2026  or  due 27 Nov
+    high  /  medium  /  low
+    x3  (needs doing 3 times)
+    note: any text
+    link: web address
+    steps: one; two; three
+  To finish with a task for good, delete its line.
+
+GOOD TO KNOW
+  - The app checks for changes each time you open it. With no signal it shows the
+    last list it downloaded.
+  - Ticks are linked to the List + Section + Task wording. Rewording a task (or moving
+    it under another heading) starts it fresh. Changing due date, priority, x3, steps,
+    notes or links keeps the ticks.
+  - Steps you add inside the app are saved on your phone only (not in todo.md).
+  - If the app says "GitHub is turning todo.md into a web page", step 4 (.nojekyll)
+    is missing.
+  - Back up your ticks now and then: ••• > Backup & restore. Deleting the Home Screen
+    icon deletes its ticks.
+  - Needs iOS 16.4 or later.
