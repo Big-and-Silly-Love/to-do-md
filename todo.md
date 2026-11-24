@@ -23,13 +23,19 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 
 # Home
 
-## Bills
-- Pay electricity bill | due 27/11 | high | note: Due date is on the email from the energy company
-- Renew car registration | due 8/12 | medium | link: https://www.vicroads.vic.gov.au
+## 最近事宜
+- 问Anthony要去哪天的teamkids | due 27/11 |low| note: 要不要去看电影和nurf gun war
+- 州选投票| due 28/11 | medium | 
+- 妹妹和哥哥进城看病｜due 26/11 ｜
+- 妹妹日托Xmas Party｜due 27/11 ｜
 
 ## Around the house
-- Clean the fridge | low
-- Water the plants | x3 | note: Three times this week
+- 卧室| medium
+    - 衣服
+    - 浴室
+    - 妹妹要卖的衣服
+    - 我要卖的首饰和衣服
+-  书房| medium ｜x3 | note: Three times this week
 - Spring clean the bedroom | due 30/11
   - Change sheets
   - Vacuum
@@ -49,12 +55,19 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 ## Admin
 - Reply to team emails | medium
 
-# Shopping
+# 杂记
 
 ## Groceries
-- Weekly shop | note: Check the pantry first | steps: Milk; Eggs; Bread; Bananas; Coffee
-
+- Weekly shop | note: Check the pantry first | steps: 橘子; 草莓/蓝莓
+  - 橘子
+  - 草莓/蓝莓
+  - 牛油果
+  - snack密封袋
+  - Hercules large sandwich袋子
+  - 酸奶
+  - 香蕉
+  - 妹妹饼干
 ## Pick ups
-- Baby Bunting| due 4/12 | medium
-- Chemistwarehouse
+- Baby Bunting
+- Chemist Warehouse
 - Shoes and Sox
