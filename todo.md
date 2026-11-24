@@ -69,19 +69,16 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 
 # 杂记
 
+## 采买清单
+- IKEA
+    - 整理箱及整理需要。打折券30/11截止
+
 ## Groceries
 - Weekly shop | note: Check with Grandma first 
-  - 橘子
-  - 草莓/蓝莓
-  - 牛油果
-  - snack密封袋
-  - Hercules large sandwich袋子
-  - 酸奶
-  - 香蕉
-  - 妹妹饼干
+ 
 ## Pick ups
-- Baby Bunting
-- Chemist Warehouse
-- Shoes and Sox
-- Iconic的短裤（Team Global）
-- 
+  - Baby Bunting
+  - Chemist Warehouse
+  - Shoes and Sox
+  - Croydon Central News Agent: Team Global parcel
+  - 
