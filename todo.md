@@ -57,15 +57,17 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 # Work
 
 ## Month end
-- Payroll bank reconciliation | due 26/11 | high
-  - Download bank statement
-  - Match pay run totals
-  - Investigate variances
-  - Send to manager for sign-off
-- Submit timesheet | due 27/11 | high
+- Balance Sheet reconciliation | due 30/11 | high
+  - Prepayments (must be reconciled for Oct26)
+  - Payroll
+  - Other
+  - Discuss with Nick if needed
+- Send EOM Invites and emails | due 27/11 | high
 
 ## Admin
-- Reply to team emails | medium
+- ABS Survey | due 02/12 | high
+- Check emails
+- Follow up with insurance
 
 # 杂记
 
