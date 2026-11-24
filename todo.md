@@ -28,6 +28,10 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - 州选投票| due 28/11 | medium | 
 - 妹妹和哥哥进城看病｜due 26/11 ｜
 - 妹妹日托Xmas Party｜due 27/11 ｜
+- 注册Mercor （准准邮件）
+- 注册其他的free lancer工作
+- 和ChatGPT讨论收拾计划
+- 
 
 ## Around the house
 - 卧室| medium
@@ -71,3 +75,5 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - Baby Bunting
 - Chemist Warehouse
 - Shoes and Sox
+- Iconic的短裤（Team Global）
+- 
