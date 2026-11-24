@@ -26,10 +26,17 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 ## 最近事宜
 - 问Anthony要去哪天的teamkids | due 27/11 |low| note: 要不要去看电影和nurf gun war
 - 州选投票| due 28/11 | medium | 
-- 妹妹和哥哥进城看病｜due 26/11 ｜
-- 妹妹日托Xmas Party｜due 27/11 ｜
+- 妹妹和哥哥进城看病 | due 26/11 | medium | 
+- 妹妹日托Xmas Party| due 27/11 | medium | 
+- 哥哥去剪头发 12:30 | due 28/11 | medium |
+- Tintern Xmas Concert | due 02/12 | medium |
+- Journey X Photo Session | due 05/12 | medium |
+- Dental Appointment| due 10/12 | medium | notes：堵牙
+- Mini Service | due 11/12 | medium |
+- Movie Night - Avengers Doomsday 22:00 | due 17/12 | medium |
+- Ronny Hates Hasan 20：00 | due 19/12 | medium |
 - 注册Mercor （准准邮件）
-- 注册其他的free lancer工作
+- 找其他的freelancing工作
 - 和ChatGPT讨论收拾计划
 - 
 
@@ -40,11 +47,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
     - 妹妹要卖的衣服
     - 我要卖的首饰和衣服
 -  书房| medium ｜x3 | note: Three times this week
-- Spring clean the bedroom | due 30/11
-  - Change sheets
-  - Vacuum
-  - Dust shelves
-  - Sort wardrobe donations
+
 
 # Work
 
@@ -62,7 +65,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 # 杂记
 
 ## Groceries
-- Weekly shop | note: Check the pantry first | steps: 橘子; 草莓/蓝莓
+- Weekly shop | note: Check with Grandma first 
   - 橘子
   - 草莓/蓝莓
   - 牛油果
