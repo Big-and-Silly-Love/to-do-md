@@ -25,13 +25,13 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 
 ## 今天
 - 量门口的距离，看是不是能放下两个柜子，装小朋友鞋子雨伞等。
-- 问Anthony去哪些天的holiday program | due 25/11 | high | x3 | notes: 确认要不要看电影
-- 吃麦麦
+- 问Anthony去哪些天的holiday program | due 25/11 | high | notes: 确认要不要看电影
+- 吃麦麦 | due 25/11 | high |
 
 ## 最近事宜
-- 问Anthony要去哪天的teamkids | due 27/11 |low| note: 要不要去看电影和nurf gun war
 - 开药
     - ozempic
+    - florien
 - 州选投票| due 28/11 | medium | 
 - 妹妹和哥哥进城看病 | due 26/11 | medium | 
 - 妹妹日托Xmas Party| due 27/11 | medium | 
@@ -40,6 +40,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - Journey X Photo Session | due 05/12 | medium |
 - Dental Appointment| due 10/12 | medium | notes：堵牙
 - Mini Service | due 11/12 | medium |
+- Cabrini Xmas Dinner 17:00 | due 17/12 | medium |
 - Movie Night - Avengers Doomsday 22:00 | due 17/12 | medium |
 - Ronny Hates Hasan 20：00 | due 19/12 | medium |
 - 注册Mercor （准准邮件）
