@@ -24,8 +24,9 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 # Home
 
 ## 今天
-- 取冰箱里的shopping
-- check what size is required for TePe Interdental Brush
+- 量门口的距离，看是不是能放下两个柜子，装小朋友鞋子雨伞等。
+- 问Anthony去哪些天的holiday program | due 25/11 | high | x3 | notes: 确认要不要看电影
+- 吃麦麦
 
 ## 最近事宜
 - 问Anthony要去哪天的teamkids | due 27/11 |low| note: 要不要去看电影和nurf gun war
