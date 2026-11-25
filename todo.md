@@ -46,6 +46,8 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - 注册Mercor （准准邮件）
 - 找其他的freelancing工作
 - 和ChatGPT讨论收拾计划
+- 自己牵裤脚
+- 
 
 ## Around the house
 - 卧室| medium
@@ -72,22 +74,26 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - Send EOM Invites and emails | due 27/11 | high
 
 ## Admin
-- ABS Survey | due 02/12 | high
 - Check emails
-- Follow up with insurance
 
 # 杂记
 
 ## 采买清单
 - IKEA
     - 整理箱及整理需要。打折券30/11截止
+    - 整理箱
+    - 门口的收纳柜子
 
 ## Groceries
 - Weekly shop | note: Check with Grandma first 
  
 ## Pick ups
-  - Baby Bunting
-  - Chemist Warehouse
+  - Baby Bunting Chirnside Park
   - Shoes and Sox
   - Croydon Central News Agent: Team Global parcel
-  - 
+
+## 家里需要卖卖的东西
+  - 金饰
+  - 鞋子
+  - 衣服
+  - 妹妹衣服
