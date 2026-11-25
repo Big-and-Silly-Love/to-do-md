@@ -27,6 +27,11 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - 量门口的距离，看是不是能放下两个柜子，装小朋友鞋子雨伞等。
 - 问Anthony去哪些天的holiday program | due 25/11 | high | notes: 确认要不要看电影
 - 吃麦麦 | due 25/11 | high |
+- 准备明天看病的东西
+    - Anthony讨论验血结果
+    - Chloe 带好她现在擦的药，还有日托eczema plan
+    - 跟Trish要一个我的皮肤病的prescription？
+    - 我：打疫苗
 
 ## 最近事宜
 - 开药
