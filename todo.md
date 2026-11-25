@@ -53,6 +53,11 @@ Ticks stay as long as the List, Section and Task wording stays the same.
     - 浴室
     - 妹妹要卖的衣服
     - 我要卖的首饰和衣服
+- 鞋架
+    - 门口新放两个柜子，把哥哥妹妹鞋子收拾好
+    - 不需要的鞋盒子丢掉
+    - 卧室里不穿的鞋子卖掉
+      
 -  书房| medium ｜steps: x3 | note: Three times this week
 
 
