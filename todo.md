@@ -79,6 +79,12 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 ## Admin
 - Check emails
 
+## 外块
+- 把dataannotation的onboarding做完
+- 研究upwork
+- 参加seminar
+
+- 
 # 杂记
 
 ## 采买清单
