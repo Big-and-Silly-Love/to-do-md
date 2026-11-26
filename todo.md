@@ -25,7 +25,12 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 
 ## 今天
 - 量门口的距离，看是不是能放下两个柜子，装小朋友鞋子雨伞等。
-- 准备明天看病的东西
+- 邮寄选票
+- 去大熊亚超
+- 研究IKEA买什么
+    - 整理箱
+    - 衣架
+- 看病的东西
     - Anthony讨论验血结果
     - Chloe 带好她现在擦的药，还有日托eczema plan
     - 跟Trish要一个我的皮肤病的prescription？
