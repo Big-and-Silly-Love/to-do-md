@@ -25,19 +25,11 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 
 ## 今天
 - 量门口的距离，看是不是能放下两个柜子，装小朋友鞋子雨伞等。
-- 邮寄选票
-- 去大熊亚超
 - 研究IKEA买什么
     - 整理箱
-    - 衣架
-- 看病的东西
-    - Anthony讨论验血结果
-    - Chloe 带好她现在擦的药，还有日托eczema plan
-    - 跟Trish要一个我的皮肤病的prescription？
-    - 我：打疫苗
+    - 鞋架
 
 ## 最近事宜 
-- 妹妹和哥哥进城看病 | due 26/11 | medium | 
 - 妹妹日托Xmas Party| due 27/11 | medium | 
 - 哥哥去剪头发 12:30 | due 28/11 | medium |
 - Tintern Xmas Concert | due 02/12 | medium |
@@ -47,7 +39,6 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - Cabrini Xmas Dinner 17:00 | due 17/12 | medium |
 - Movie Night - Avengers Doomsday 22:00 | due 17/12 | medium |
 - Ronny Hates Hasan 20：00 | due 19/12 | medium |
-- 注册Mercor （准准邮件）
 - 找其他的freelancing工作
 - 和ChatGPT讨论收拾计划
 - 自己牵裤脚
