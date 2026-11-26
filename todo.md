@@ -80,9 +80,12 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 
 ## 采买清单
 - IKEA
-    - 整理箱及整理需要。打折券30/11截止
-    - 整理箱
-    - 门口的收纳柜子
+    - 打折券30/11截止
+    - 整理箱 x6
+    - 整理箱盖子 x3
+    - 鞋架 x3
+    - 小朋友衣架 x2
+    - Shoe mat x4
 
 ## Groceries
 - Weekly shop | note: Check with Grandma first 
