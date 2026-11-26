@@ -25,19 +25,13 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 
 ## 今天
 - 量门口的距离，看是不是能放下两个柜子，装小朋友鞋子雨伞等。
-- 问Anthony去哪些天的holiday program | due 25/11 | high | notes: 确认要不要看电影
-- 吃麦麦 | due 25/11 | high |
 - 准备明天看病的东西
     - Anthony讨论验血结果
     - Chloe 带好她现在擦的药，还有日托eczema plan
     - 跟Trish要一个我的皮肤病的prescription？
     - 我：打疫苗
 
-## 最近事宜
-- 开药
-    - ozempic
-    - florien
-- 州选投票| due 28/11 | medium | 
+## 最近事宜 
 - 妹妹和哥哥进城看病 | due 26/11 | medium | 
 - 妹妹日托Xmas Party| due 27/11 | medium | 
 - 哥哥去剪头发 12:30 | due 28/11 | medium |
@@ -52,7 +46,6 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - 找其他的freelancing工作
 - 和ChatGPT讨论收拾计划
 - 自己牵裤脚
-- 
 
 ## Around the house
 - 卧室| medium
@@ -93,12 +86,10 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - Weekly shop | note: Check with Grandma first 
  
 ## Pick ups
-  - Baby Bunting Chirnside Park
-  - Shoes and Sox
-  - Croydon Central News Agent: Team Global parcel
+- Shoes and Sox
 
 ## 家里需要卖卖的东西
-  - 金饰
-  - 鞋子
-  - 衣服
-  - 妹妹衣服
+- 金饰
+- 鞋子
+- 衣服
+- 妹妹衣服
