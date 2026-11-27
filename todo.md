@@ -35,6 +35,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - 研究IKEA买什么
     - 整理箱
     - 鞋架
+    - Poppy尿布，Anthony要的cracker和巧克力
 
 ## 最近事宜 
 - 哥哥去剪头发 12:30 | due 28/11 | medium |
