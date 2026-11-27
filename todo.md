@@ -30,13 +30,14 @@ Ticks stay as long as the List, Section and Task wording stays the same.
   - 换筒子
   - 开药
   - 买Anthony的饼干和Poppy的尿布
-
-- 卖瓶子
+  - 去Goodlife说一下扣款失败的事情
   
-- 研究IKEA买什么
+- 去IKEA
     - 整理箱
+    - 整理箱盖子
+    - 小朋友衣架
+    - 鞋架下面的垫子tray
     - 鞋架
-    - Poppy尿布，Anthony要的cracker和巧克力
 
 ## 最近事宜 
 - 哥哥去剪头发 12:30 | due 28/11 | medium |
@@ -50,6 +51,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - 找其他的freelancing工作
 - 和ChatGPT讨论收拾计划
 - 自己牵裤脚
+- 卖瓶子
 
 ## Around the house
 - 卧室| medium
