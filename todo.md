@@ -25,12 +25,9 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 
 ## 今天
 - 要做的事
-  - 取现金
-  - 取鞋子
   - 换筒子
   - 开药
   - Poppy的尿布
-  - 去Goodlife说一下扣款失败的事情
   
 - 去IKEA
     - 整理箱
