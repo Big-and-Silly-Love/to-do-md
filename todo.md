@@ -29,6 +29,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
   - 取鞋子
   - 换筒子
   - 开药
+  - 买Anthony的饼干和Poppy的尿布
 
 - 卖瓶子
   
