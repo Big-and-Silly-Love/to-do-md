@@ -24,13 +24,18 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 # Home
 
 ## 今天
-- 量门口的距离，看是不是能放下两个柜子，装小朋友鞋子雨伞等。
+- 要做的事
+  - 取现金
+  - 取鞋子
+  - 换筒子
+
+- 卖瓶子
+  
 - 研究IKEA买什么
     - 整理箱
     - 鞋架
 
 ## 最近事宜 
-- 妹妹日托Xmas Party| due 27/11 | medium | 
 - 哥哥去剪头发 12:30 | due 28/11 | medium |
 - Tintern Xmas Concert | due 02/12 | medium |
 - Journey X Photo Session | due 05/12 | medium |
@@ -71,9 +76,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 - Check emails
 
 ## 外块
-- 把dataannotation的onboarding做完
-- 研究upwork
-- 参加seminar
+- 新的拍照task
 
 - 
 # 杂记
@@ -81,7 +84,7 @@ Ticks stay as long as the List, Section and Task wording stays the same.
 ## 采买清单
 - IKEA
     - 打折券30/11截止
-    - 整理箱 x6
+    - 整理箱 x8
     - 整理箱盖子 x3
     - 鞋架 x3
     - 小朋友衣架 x2
